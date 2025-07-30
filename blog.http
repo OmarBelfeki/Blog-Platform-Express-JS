@@ -1,0 +1,58 @@
+
+
+
+### Login User
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "omarbelfeki1@gmail.com",
+    "password": "123456"
+}
+
+> {% client.global.set("auth_token", response.body.token); %}
+
+### Create post
+POST http://localhost:5000/api/posts
+Content-Type: application/json
+Authorization: : Bearer {{ auth_token }}
+
+{
+    "title": "My First Post",
+    "content": "This is the content of my first posts."
+}
+
+> {% client.global.set("post_id", response.body._id); %}
+
+
+### Get all Posts
+GET http://localhost:5000/api/posts
+
+### Update Post
+PUT http://localhost:5000/api/posts/{{posts_id}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+    "title": "Updated Post Title",
+    "content": "Updated post content"
+}
+
+
+### Delete post
+DELETE http://localhost:5000/api/posts/{{post_id}}
+Authorization: Bearer {{auth_token}}
+
+
+### Add Comment
+POST http://localhost:5000/api/comments
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+    "text": "This is a comment",
+    "post": "{{post_id}}"
+}
+
+### Get Comments for Post
+GET http://localhost:5000/api/comments/{{post_id}}
